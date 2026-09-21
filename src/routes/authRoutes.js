@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { prisma } from "../config/db.js";
 import {
   change_password,
   login,
@@ -18,3 +17,5 @@ authRoutes.post("/login", login);
 authRoutes.get("/me", auth_middleware, me);
 
 authRoutes.post("/change-password", auth_middleware, change_password);
+
+

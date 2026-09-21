@@ -135,6 +135,75 @@ exports.Prisma.ProfileScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.FacultyScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.DepartmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  facultyId: 'facultyId'
+};
+
+exports.Prisma.StudentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  matricNo: 'matricNo',
+  departmentId: 'departmentId',
+  level: 'level'
+};
+
+exports.Prisma.LecturerScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  departmentId: 'departmentId'
+};
+
+exports.Prisma.SessionScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.SemesterScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sessionId: 'sessionId'
+};
+
+exports.Prisma.CourseScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  title: 'title',
+  unit: 'unit',
+  departmentId: 'departmentId'
+};
+
+exports.Prisma.CourseOfferingScalarFieldEnum = {
+  id: 'id',
+  courseId: 'courseId',
+  lecturerId: 'lecturerId',
+  semesterId: 'semesterId'
+};
+
+exports.Prisma.EnrollmentScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  offeringId: 'offeringId'
+};
+
+exports.Prisma.ResultScalarFieldEnum = {
+  id: 'id',
+  enrollmentId: 'enrollmentId',
+  caScore: 'caScore',
+  examScore: 'examScore',
+  totalScore: 'totalScore',
+  grade: 'grade',
+  gradePoint: 'gradePoint',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -144,11 +213,25 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
-
+exports.ResultStatus = exports.$Enums.ResultStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Profile: 'Profile'
+  Profile: 'Profile',
+  Faculty: 'Faculty',
+  Department: 'Department',
+  Student: 'Student',
+  Lecturer: 'Lecturer',
+  Session: 'Session',
+  Semester: 'Semester',
+  Course: 'Course',
+  CourseOffering: 'CourseOffering',
+  Enrollment: 'Enrollment',
+  Result: 'Result'
 };
 
 /**

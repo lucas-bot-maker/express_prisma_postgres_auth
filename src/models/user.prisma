@@ -1,16 +1,121 @@
 model User {
-    id String @id @default(uuid())
-    email String @unique
-    password String 
-    name String
-    profile Profile?
+  id       String    @id @default(uuid())
+  email    String    @unique
+  password String
+  name     String
+  lecturer Lecturer?
+  profile  Profile?
+  student  Student?
 }
 
 model Profile {
-    id String @id @default(uuid())
-    phone_number String
-    country String
-    state String
-    userId String @unique
-    user User @relation(fields: [userId], references: [id])
+  id           String @id @default(uuid())
+  phone_number String
+  country      String
+  state        String
+  userId       String @unique
+  user         User   @relation(fields: [userId], references: [id])
+}
+
+model Faculty {
+  id          String       @id @default(dbgenerated("gen_random_uuid()"))
+  name        String
+  departments Department[]
+}
+
+model Department {
+  id        String     @id @default(dbgenerated("(gen_random_uuid())::text"))
+  name      String
+  facultyId String
+  courses   Course[]
+  faculty   Faculty    @relation(fields: [facultyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  lecturers Lecturer[]
+  students  Student[]
+}
+
+model Student {
+  id           String       @id @default(dbgenerated("(gen_random_uuid())::text"))
+  userId       String       @unique
+  matricNo     String       @unique
+  departmentId String
+  level        Int
+  enrollments  Enrollment[]
+  department   Department   @relation(fields: [departmentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user         User         @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Lecturer {
+  id           String           @id @default(dbgenerated("gen_random_uuid()"))
+  userId       String           @unique
+  departmentId String
+  offerings    CourseOffering[]
+  department   Department       @relation(fields: [departmentId], references: [id])
+  user         User             @relation(fields: [userId], references: [id])
+}
+
+model Session {
+  id        String     @id @default(dbgenerated("gen_random_uuid()"))
+  name      String     @unique
+  semesters Semester[]
+}
+
+model Semester {
+  id        String           @id @default(dbgenerated("gen_random_uuid()"))
+  name      String
+  sessionId String
+  offerings CourseOffering[]
+  session   Session          @relation(fields: [sessionId], references: [id])
+}
+
+model Course {
+  id           String           @id @default(dbgenerated("gen_random_uuid()"))
+  code         String           @unique
+  title        String
+  unit         Int
+  departmentId String
+  department   Department       @relation(fields: [departmentId], references: [id])
+  offerings    CourseOffering[]
+}
+
+model CourseOffering {
+  id          String       @id @default(dbgenerated("(gen_random_uuid())::text"))
+  courseId    String
+  lecturerId  String
+  semesterId  String
+  course      Course       @relation(fields: [courseId], references: [id])
+  lecturer    Lecturer     @relation(fields: [lecturerId], references: [id])
+  semester    Semester     @relation(fields: [semesterId], references: [id])
+  enrollments Enrollment[]
+
+  @@unique([courseId, semesterId])
+}
+
+model Enrollment {
+  id         String         @id @default(dbgenerated("(gen_random_uuid())::text"))
+  studentId  String
+  offeringId String
+  offering   CourseOffering @relation(fields: [offeringId], references: [id])
+  student    Student        @relation(fields: [studentId], references: [id])
+  result     Result?
+
+  @@unique([studentId, offeringId])
+}
+
+model Result {
+  id           String       @id @default(dbgenerated("(gen_random_uuid())::text"))
+  enrollmentId String       @unique
+  caScore      Float
+  examScore    Float
+  totalScore   Float
+  grade        String
+  gradePoint   Float
+  status       ResultStatus @default(PENDING)
+  createdAt    DateTime     @default(now())
+  enrollment   Enrollment   @relation(fields: [enrollmentId], references: [id])
+}
+
+enum ResultStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }

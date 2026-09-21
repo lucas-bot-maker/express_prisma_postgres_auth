@@ -15,26 +15,37 @@ export const register = async (req, res) => {
 
     // check if user already exist
     const exist_user = await prisma.user.findUnique({ where: { email } });
-    // if (exist_user)
-    //   return res.status(400).json({ message: "user already exist" });
+    if (exist_user)
+      return res.status(400).json({ message: "user already exist" });
 
     // hash the password
     const hashed_password = await bcrypt.hash(password, 5);
 
     // save user to db
-    // const user = await prisma.user.create({
-    //   data: { name, email, password: hashed_password },
-    // });
+    const user = await prisma.user.create({
+      data: { name, email, password: hashed_password },
+    });
 
     // send otp
-    messenger.sendMail(
-      {
-        to: email,
-        subject: "User Registration",
-        text: `hello ${name}, your account has been registered successfully`,
-      },
-      (err, info) => console.log("email status:", info),
-    );
+    // messenger.sendMail(
+    //   {
+    //     to: email,
+    //     subject: "User Registration",
+    //     text: `hello ${name}, your account has been registered successfully`,
+    //   },
+    //   (err, info) => console.log("email status:", info),
+    // );
+
+    try {
+  const info = await messenger.sendMail({
+    to: email,
+    subject: "User Registration",
+    text: `hello ${name}, your account has been registered successfully`,
+  });
+  console.log("email status:", info);
+} catch (err) {
+  console.error("email send failed:", err);
+}
 
     // console.log("email sent");
 
@@ -128,7 +139,7 @@ export const change_password = async (req, res) => {
       },
     });
 
-    return res.sendStatus(200);
+    return res.status(200).json({message:"password changed successfully"});
   } catch (error) {
     console.log("[auth/change_password] error occured: ", error.message);
     return res.sendStatus(500);
