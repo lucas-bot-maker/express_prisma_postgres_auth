@@ -18,10 +18,10 @@ semesterRoutes.get("/", getAllSemesters);
 semesterRoutes.get("/:id", getSemesterById);
 
 // CREATE a semester
-semesterRoutes.post("/createSemester", createSemester);
+semesterRoutes.post("/", createSemester);
 
 // UPDATE a semester
-semesterRoutes.put("/:id", updateSemester);
+semesterRoutes.patch("/:id", updateSemester);
 
 // DELETE a semester
 semesterRoutes.delete("/:id", deleteSemester);

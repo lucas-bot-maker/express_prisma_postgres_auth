@@ -7,19 +7,21 @@ import {
   updateEnrollment,
   deleteEnrollment,
 } from "../controllers/enrollmentController.js";
+import { authenticate, authorize } from "../middlewares/authMiddleware.js";
 
 
 export const enrollmentRoutes = Router();
 
+enrollmentRoutes.use(authenticate)
 
 enrollmentRoutes.get("/", getAllEnrollments);
 
 enrollmentRoutes.get("/:id", getEnrollmentById);
 
-enrollmentRoutes.post("/", createEnrollment);
+enrollmentRoutes.post("/", authorize("ADMIN"), createEnrollment);
 
-enrollmentRoutes.put("/:id", updateEnrollment);
+enrollmentRoutes.patch("/:id", authorize("ADMIN"), updateEnrollment);
 
-enrollmentRoutes.delete("/:id", deleteEnrollment);
+enrollmentRoutes.delete("/:id", authorize("ADMIN"), deleteEnrollment);
 
 

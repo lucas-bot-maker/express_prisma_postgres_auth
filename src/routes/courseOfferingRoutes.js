@@ -10,7 +10,7 @@ import {
   getOfferingEnrollments,
 } from "../controllers/courseOfferingController.js";
 
-
+import { authenticate, authorize } from "../middlewares/authMiddleware.js";
 
 
 export const courseOfferingRoutes = Router();
@@ -18,7 +18,7 @@ export const courseOfferingRoutes = Router();
 
 
 
-
+courseOfferingRoutes.use(authenticate); 
 
 // GET all course offering
 courseOfferingRoutes.get("/", getAllOfferings);
@@ -27,13 +27,13 @@ courseOfferingRoutes.get("/", getAllOfferings);
 courseOfferingRoutes.get("/:id", getOfferingById);
 
 // CREATE a course offering
-courseOfferingRoutes.post("/createOffering", createOffering);
+courseOfferingRoutes.post("/", authorize("ADMIN"), createOffering);
 
 // UPDATE a course offering
-courseOfferingRoutes.put("/:id", updateOffering);
+courseOfferingRoutes.patch("/:id", authorize("ADMIN"), updateOffering);
 
 // DELETE a course offering
-courseOfferingRoutes.delete("/:id", deleteOffering);
+courseOfferingRoutes.delete("/:id", authorize("ADMIN"), deleteOffering);
 
 // GET all enrollments for an offering
 courseOfferingRoutes.get("/:id/enrollments", getOfferingEnrollments);

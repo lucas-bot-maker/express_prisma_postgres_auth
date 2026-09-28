@@ -6,7 +6,7 @@ import { messenger } from "../config/email.js";
 export const register = async (req, res) => {
   try {
     // get values from user form
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
     if (!name || !email || !password) {
       return res
         .status(400)
@@ -19,41 +19,27 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "user already exist" });
 
     // hash the password
-    const hashed_password = await bcrypt.hash(password, 5);
+    const hashed_password = await bcrypt.hash(password, 10);
 
     // save user to db
     const user = await prisma.user.create({
-      data: { name, email, password: hashed_password },
+      data: { name, email, password: hashed_password, role },
+        select: { id: true, name: true, email: true, role: true },
     });
-
-    // send otp
-    // messenger.sendMail(
-    //   {
-    //     to: email,
-    //     subject: "User Registration",
-    //     text: `hello ${name}, your account has been registered successfully`,
-    //   },
-    //   (err, info) => console.log("email status:", info),
-    // );
-
     try {
   const info = await messenger.sendMail({
     to: email,
     subject: "User Registration",
     text: `hello ${name}, your account has been registered successfully`,
   });
-  console.log("email status:", info);
+  // console.log("email status:", info);
 } catch (err) {
   console.error("email send failed:", err);
 }
-
-    // console.log("email sent");
-
-    // return successful
     // return res.sendStatus(201);
     return res.status(201).json({ message: "created", data: user });
   } catch (error) {
-    console.log("[/register] error: ", error.message);
+    console.error("[/register] error: ", error.message);
     return res.sendStatus(500);
   }
 };
@@ -61,7 +47,7 @@ export const register = async (req, res) => {
 // login endpoint
 export const login = async (req, res) => {
   try {
-    console.log("username:", req.user_name);
+    // console.log("username:", req.user_name);
     // get email and password
     const { email, password } = req.body;
     if (!email || !password) {
@@ -69,11 +55,10 @@ export const login = async (req, res) => {
         .status(400)
         .json({ msg: "Please provide, email and password" });
     }
-
     // check if user exist
     const exist_user = await prisma.user.findUnique({ where: { email } });
     if (!exist_user)
-      return res.status(400).json({ message: "invalid credentials 1" });
+      return res.status(400).json({ message: "invalid credentials" });
 
     console.log("exist_user_password: ", typeof exist_user.password);
     // compare password
@@ -82,13 +67,14 @@ export const login = async (req, res) => {
       exist_user.password,
     );
     if (!is_password_match)
-      return res.status(400).json({ message: "invalid credentials 2" });
+      return res.status(400).json({ message: "invalid data" });
 
     // return (jwt token)
-    const token = await generate_jwt({ user_id: exist_user.id });
+    // const token = await generate_jwt({ user_id: exist_user.id });
+    const token = await generate_jwt({ user_id: exist_user.id, role: exist_user.role });
     return res.status(200).json({ token });
   } catch (error) {
-    console.log("[/login] error: ", error.message);
+    // console.error("[/login] error: ", error.message);
     return res.sendStatus(500);
   }
 };
@@ -102,6 +88,11 @@ export const me = async (req, res) => {
       where: {
         id: user_id,
       },
+          select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,}
     });
     if (!user) return res.sendStatus(404);
 
@@ -109,7 +100,7 @@ export const me = async (req, res) => {
       .status(200)
       .json({ message: "user retrieved successfully", data: user });
   } catch (error) {
-    console.log("[auth/me] error occured: ", error.message);
+    console.error("[auth/me] error occured: ", error.message);
     return res.sendStatus(500);
   }
 };

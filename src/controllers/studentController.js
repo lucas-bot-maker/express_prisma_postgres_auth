@@ -1,7 +1,24 @@
 import { prisma } from "../config/db.js";
 
+
+
+
+
 export const getAllStudents = async (req, res) => {
   try {
+      const where = {};
+
+    if (req.user_role === "LECTURER") {
+      const lecturer = await prisma.lecturer.findUnique({
+        where: { userId: req.user_id },
+      });
+      if (!lecturer) {
+        return res.status(403).json({ message: "Lecturer profile not found" });
+      }
+      where.departmentId = lecturer.departmentId;
+    }
+
+
     const students = await prisma.student.findMany({
       include: { department: true, user: { select: { email: true, name: true } } },
     });
@@ -16,14 +33,34 @@ export const getStudentById = async (req, res) => {
   try {
     const { id: studentId } = req.params;
 
-    const student = await prisma.student.findUnique({
-      where: { id: studentId },
+      const where = {};
+
+    if (req.user_role === "LECTURER") {
+      const lecturer = await prisma.lecturer.findUnique({
+        where: { userId: req.user_id },
+      });
+      if (!lecturer) {
+        return res.status(403).json({ message: "Lecturer profile not found" });
+      }
+      where.departmentId = lecturer.departmentId;
+    }
+        const student = await prisma.student.findFirst({
+      where,
       include: { department: true, user: { select: { email: true, name: true } } },
     });
 
     if (!student) {
       return res.status(404).json({ message: "Student not found" });
     }
+
+    // const student = await prisma.student.findUnique({
+    //   where: { id: studentId },
+    //   include: { department: true, user: { select: { email: true, name: true } } },
+    // });
+
+    // if (!student) {
+    //   return res.status(404).json({ message: "Student not found" });
+    // }
 
     res.status(200).json(student);
   } catch (err) {

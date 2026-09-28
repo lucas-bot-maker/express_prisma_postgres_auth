@@ -8,10 +8,12 @@ import {
   deleteLecturer,
   getLecturerOfferings,
 } from "../controllers/lecturerController.js";
+import { authenticate, authorize } from "../middlewares/authMiddleware.js";
 
 
 export const lecturerRoutes = Router();
 
+lecturerRoutes.use(authenticate)
 
 // GET all lecturers
 lecturerRoutes.get("/", getAllLecturers);
@@ -23,12 +25,12 @@ lecturerRoutes.get("/:id/offerings", getLecturerOfferings);
 lecturerRoutes.get("/:id", getLecturerById);
 
 // CREATE a lecturer
-lecturerRoutes.post("/createLecturer", createLecturer);
+lecturerRoutes.post("/", authorize("ADMIN"), createLecturer);
 
 // UPDATE a lecturer
-lecturerRoutes.put("/:id", updateLecturer);
+lecturerRoutes.patch("/:id", authorize("ADMIN"), updateLecturer);
 
 // DELETE a lecturer
-lecturerRoutes.delete("/:id", deleteLecturer);
+lecturerRoutes.delete("/:id", authorize("ADMIN"), deleteLecturer);
 
 

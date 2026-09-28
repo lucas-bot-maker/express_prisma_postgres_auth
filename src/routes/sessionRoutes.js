@@ -13,10 +13,10 @@ sessionRoutes.get("/", getAllSessions);
 sessionRoutes.get("/:id", getSessionById);
 
 // CREATE a session
-sessionRoutes.post("/createSession", createSession);
+sessionRoutes.post("/", createSession);
 
 // UPDATE a session
-sessionRoutes.put("/:id", updateSession);
+sessionRoutes.patch("/:id", updateSession);
 
 // DELETE a session
 sessionRoutes.delete("/:id", deleteSession);

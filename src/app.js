@@ -15,7 +15,7 @@ import { lecturerRoutes } from "./routes/lecturerRoutes.js";
 import { courseOfferingRoutes } from "./routes/courseOfferingRoutes.js";
 import { enrollmentRoutes } from "./routes/enrollmentRoutes.js";
 import { resultRoutes } from "./routes/resultRoutes.js";
-// import { auth_middleware } from "./middlewares/authMiddleware.js";
+
 
 export const app = express();
 

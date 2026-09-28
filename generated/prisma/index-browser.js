@@ -124,7 +124,8 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
-  name: 'name'
+  name: 'name',
+  role: 'role'
 };
 
 exports.Prisma.ProfileScalarFieldEnum = {
@@ -213,6 +214,12 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
+exports.Role = exports.$Enums.Role = {
+  ADMIN: 'ADMIN',
+  LECTURER: 'LECTURER',
+  STUDENT: 'STUDENT'
+};
+
 exports.ResultStatus = exports.$Enums.ResultStatus = {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',

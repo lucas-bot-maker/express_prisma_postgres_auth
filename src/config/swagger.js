@@ -1,7 +1,7 @@
 export const swaggerSpec = {
   openapi: "3.0.0",
   info: {
-    title: "Result Collation API",
+    title: "Cortex Result Collation API",
     version: "1.0.0",
     description: "API for managing faculties, departments, students, lecturers, courses, enrollments, and results",
   },

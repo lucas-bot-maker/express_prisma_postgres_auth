@@ -78,7 +78,16 @@ export type Result = $Result.DefaultSelection<Prisma.$ResultPayload>
  * Enums
  */
 export namespace $Enums {
-  export const ResultStatus: {
+  export const Role: {
+  ADMIN: 'ADMIN',
+  LECTURER: 'LECTURER',
+  STUDENT: 'STUDENT'
+};
+
+export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const ResultStatus: {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED'
@@ -87,6 +96,10 @@ export namespace $Enums {
 export type ResultStatus = (typeof ResultStatus)[keyof typeof ResultStatus]
 
 }
+
+export type Role = $Enums.Role
+
+export const Role: typeof $Enums.Role
 
 export type ResultStatus = $Enums.ResultStatus
 
@@ -2193,6 +2206,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     name: string | null
+    role: $Enums.Role | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -2200,6 +2214,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     name: string | null
+    role: $Enums.Role | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -2207,6 +2222,7 @@ export namespace Prisma {
     email: number
     password: number
     name: number
+    role: number
     _all: number
   }
 
@@ -2216,6 +2232,7 @@ export namespace Prisma {
     email?: true
     password?: true
     name?: true
+    role?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -2223,6 +2240,7 @@ export namespace Prisma {
     email?: true
     password?: true
     name?: true
+    role?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -2230,6 +2248,7 @@ export namespace Prisma {
     email?: true
     password?: true
     name?: true
+    role?: true
     _all?: true
   }
 
@@ -2310,6 +2329,7 @@ export namespace Prisma {
     email: string
     password: string
     name: string
+    role: $Enums.Role
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -2334,6 +2354,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     name?: boolean
+    role?: boolean
     lecturer?: boolean | User$lecturerArgs<ExtArgs>
     profile?: boolean | User$profileArgs<ExtArgs>
     student?: boolean | User$studentArgs<ExtArgs>
@@ -2344,6 +2365,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     name?: boolean
+    role?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2351,6 +2373,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     name?: boolean
+    role?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2358,9 +2381,10 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     name?: boolean
+    role?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "role", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     lecturer?: boolean | User$lecturerArgs<ExtArgs>
     profile?: boolean | User$profileArgs<ExtArgs>
@@ -2381,6 +2405,7 @@ export namespace Prisma {
       email: string
       password: string
       name: string
+      role: $Enums.Role
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2811,6 +2836,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
+    readonly role: FieldRef<"User", 'Role'>
   }
     
 
@@ -15284,7 +15310,8 @@ export namespace Prisma {
     id: 'id',
     email: 'email',
     password: 'password',
-    name: 'name'
+    name: 'name',
+    role: 'role'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -15436,6 +15463,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Role'
+   */
+  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
+    
+
+
+  /**
+   * Reference to a field of type 'Role[]'
+   */
+  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -15502,6 +15543,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
+    role?: EnumRoleFilter<"User"> | $Enums.Role
     lecturer?: XOR<LecturerNullableScalarRelationFilter, LecturerWhereInput> | null
     profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null
     student?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
@@ -15512,6 +15554,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     name?: SortOrder
+    role?: SortOrder
     lecturer?: LecturerOrderByWithRelationInput
     profile?: ProfileOrderByWithRelationInput
     student?: StudentOrderByWithRelationInput
@@ -15525,6 +15568,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     password?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
+    role?: EnumRoleFilter<"User"> | $Enums.Role
     lecturer?: XOR<LecturerNullableScalarRelationFilter, LecturerWhereInput> | null
     profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null
     student?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
@@ -15535,6 +15579,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     name?: SortOrder
+    role?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -15548,6 +15593,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
+    role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   }
 
   export type ProfileWhereInput = {
@@ -16155,6 +16201,7 @@ export namespace Prisma {
     email: string
     password: string
     name: string
+    role?: $Enums.Role
     lecturer?: LecturerCreateNestedOneWithoutUserInput
     profile?: ProfileCreateNestedOneWithoutUserInput
     student?: StudentCreateNestedOneWithoutUserInput
@@ -16165,6 +16212,7 @@ export namespace Prisma {
     email: string
     password: string
     name: string
+    role?: $Enums.Role
     lecturer?: LecturerUncheckedCreateNestedOneWithoutUserInput
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     student?: StudentUncheckedCreateNestedOneWithoutUserInput
@@ -16175,6 +16223,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lecturer?: LecturerUpdateOneWithoutUserNestedInput
     profile?: ProfileUpdateOneWithoutUserNestedInput
     student?: StudentUpdateOneWithoutUserNestedInput
@@ -16185,6 +16234,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lecturer?: LecturerUncheckedUpdateOneWithoutUserNestedInput
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     student?: StudentUncheckedUpdateOneWithoutUserNestedInput
@@ -16195,6 +16245,7 @@ export namespace Prisma {
     email: string
     password: string
     name: string
+    role?: $Enums.Role
   }
 
   export type UserUpdateManyMutationInput = {
@@ -16202,6 +16253,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -16209,6 +16261,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
 
   export type ProfileCreateInput = {
@@ -16795,6 +16848,13 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type EnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
   export type LecturerNullableScalarRelationFilter = {
     is?: LecturerWhereInput | null
     isNot?: LecturerWhereInput | null
@@ -16815,6 +16875,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     name?: SortOrder
+    role?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -16822,6 +16883,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     name?: SortOrder
+    role?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -16829,6 +16891,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     name?: SortOrder
+    role?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -16847,6 +16910,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -17379,6 +17452,10 @@ export namespace Prisma {
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type EnumRoleFieldUpdateOperationsInput = {
+    set?: $Enums.Role
   }
 
   export type LecturerUpdateOneWithoutUserNestedInput = {
@@ -18127,6 +18204,13 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedEnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -18153,6 +18237,16 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -18377,6 +18471,7 @@ export namespace Prisma {
     email: string
     password: string
     name: string
+    role?: $Enums.Role
     lecturer?: LecturerCreateNestedOneWithoutUserInput
     student?: StudentCreateNestedOneWithoutUserInput
   }
@@ -18386,6 +18481,7 @@ export namespace Prisma {
     email: string
     password: string
     name: string
+    role?: $Enums.Role
     lecturer?: LecturerUncheckedCreateNestedOneWithoutUserInput
     student?: StudentUncheckedCreateNestedOneWithoutUserInput
   }
@@ -18411,6 +18507,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lecturer?: LecturerUpdateOneWithoutUserNestedInput
     student?: StudentUpdateOneWithoutUserNestedInput
   }
@@ -18420,6 +18517,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lecturer?: LecturerUncheckedUpdateOneWithoutUserNestedInput
     student?: StudentUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -18712,6 +18810,7 @@ export namespace Prisma {
     email: string
     password: string
     name: string
+    role?: $Enums.Role
     lecturer?: LecturerCreateNestedOneWithoutUserInput
     profile?: ProfileCreateNestedOneWithoutUserInput
   }
@@ -18721,6 +18820,7 @@ export namespace Prisma {
     email: string
     password: string
     name: string
+    role?: $Enums.Role
     lecturer?: LecturerUncheckedCreateNestedOneWithoutUserInput
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
   }
@@ -18798,6 +18898,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lecturer?: LecturerUpdateOneWithoutUserNestedInput
     profile?: ProfileUpdateOneWithoutUserNestedInput
   }
@@ -18807,6 +18908,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lecturer?: LecturerUncheckedUpdateOneWithoutUserNestedInput
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -18861,6 +18963,7 @@ export namespace Prisma {
     email: string
     password: string
     name: string
+    role?: $Enums.Role
     profile?: ProfileCreateNestedOneWithoutUserInput
     student?: StudentCreateNestedOneWithoutUserInput
   }
@@ -18870,6 +18973,7 @@ export namespace Prisma {
     email: string
     password: string
     name: string
+    role?: $Enums.Role
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     student?: StudentUncheckedCreateNestedOneWithoutUserInput
   }
@@ -18948,6 +19052,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     profile?: ProfileUpdateOneWithoutUserNestedInput
     student?: StudentUpdateOneWithoutUserNestedInput
   }
@@ -18957,6 +19062,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     student?: StudentUncheckedUpdateOneWithoutUserNestedInput
   }

@@ -8,18 +8,20 @@ import {
   deleteFaculty,
 } from "../controllers/facultyController.js";
 
+import { authenticate } from "../middlewares/authMiddleware.js";
+import { authorize } from "../middlewares/authMiddleware.js";
 
 
 
 export const facultyRoutes = Router();
-
+facultyRoutes.use(authenticate)
 
 facultyRoutes.get("/", getAllFaculties);
 
 facultyRoutes.get("/:id", getFacultyById);
 
-facultyRoutes.post("/", createFaculty);
+facultyRoutes.post("/", authorize("ADMIN"),  createFaculty);
 
-facultyRoutes.put("/:id", updateFaculty);
+facultyRoutes.patch("/:id", authorize("ADMIN"),   updateFaculty);
 
-facultyRoutes.delete("/:id", deleteFaculty);
+facultyRoutes.delete("/:id", authorize("ADMIN"), deleteFaculty);

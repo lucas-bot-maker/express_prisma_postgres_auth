@@ -6,19 +6,22 @@ import {
   updateDepartment,
   deleteDepartment,
 } from "../controllers/departmentController.js";
+import { authenticate, authorize } from "../middlewares/authMiddleware.js";
 
 
-import { auth_middleware } from "../middlewares/authMiddleware.js";
+
 
 export const departmentRoutes = Router();
+
+departmentRoutes.use(authenticate)
 
 
 departmentRoutes.get("/", getAllDepartments);
 
 departmentRoutes.get("/:id", getDepartmentById);
 
-departmentRoutes.post("/createDepartment", createDepartment);
+departmentRoutes.post("/", authorize("ADMIN"), createDepartment);
 
-departmentRoutes.put("/:id", updateDepartment);
+departmentRoutes.patch("/:id", authorize("ADMIN"), updateDepartment);
 
-departmentRoutes.delete("/:id", deleteDepartment);
+departmentRoutes.delete("/:id", authorize("ADMIN"), deleteDepartment);
