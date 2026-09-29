@@ -19,9 +19,25 @@ import { resultRoutes } from "./routes/resultRoutes.js";
 
 export const app = express();
 
-app.use(cors({
-  origin: "https://result-collation-frontend-hr6yoffwk-lucas-7d07.vercel.app/"
-}));
+
+const allowedOrigins = [
+  "http://localhost:5173", // local dev
+  "https://result-collation-frontend.vercel.app",
+  "https://result-collation-frontend-git-main-lucas-7d07.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
