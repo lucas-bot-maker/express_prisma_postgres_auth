@@ -20,7 +20,7 @@ import { resultRoutes } from "./routes/resultRoutes.js";
 export const app = express();
 
 app.use(cors({
-  origin: "https://result-collation-frontend.vercel.app/"
+  origin: "https://result-collation-frontend-hr6yoffwk-lucas-7d07.vercel.app/"
 }));
 
 app.use(express.json());
