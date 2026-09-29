@@ -6,24 +6,26 @@ import {
   updateSemester,
   deleteSemester,
 } from "../controllers/semesterController.js";
-
+import { authenticate, authorize } from "../middlewares/authMiddleware.js";
 
 
 export const semesterRoutes = Router();
 
+semesterRoutes.use(authenticate)
+
 // GET all semesters
-semesterRoutes.get("/", getAllSemesters);
+semesterRoutes.get("/",  authorize("ADMIN", "LECTURER"), getAllSemesters);
 
 // GET a single semester
-semesterRoutes.get("/:id", getSemesterById);
+semesterRoutes.get("/:id",   authorize("ADMIN", "LECTURER"), getSemesterById);
 
 // CREATE a semester
-semesterRoutes.post("/", createSemester);
+semesterRoutes.post("/",  authorize("ADMIN"), createSemester);
 
 // UPDATE a semester
-semesterRoutes.patch("/:id", updateSemester);
+semesterRoutes.patch("/:id",  authorize("ADMIN"), updateSemester);
 
 // DELETE a semester
-semesterRoutes.delete("/:id", deleteSemester);
+semesterRoutes.delete("/:id",  authorize("ADMIN"), deleteSemester);
 
 

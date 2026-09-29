@@ -8,8 +8,8 @@ import {
   deleteFaculty,
 } from "../controllers/facultyController.js";
 
-import { authenticate } from "../middlewares/authMiddleware.js";
-import { authorize } from "../middlewares/authMiddleware.js";
+import { authenticate, authorize } from "../middlewares/authMiddleware.js";
+
 
 
 

@@ -22,7 +22,7 @@ lecturerRoutes.get("/", getAllLecturers);
 lecturerRoutes.get("/:id/offerings", getLecturerOfferings);
 
 // GET a single lecturer
-lecturerRoutes.get("/:id", getLecturerById);
+lecturerRoutes.get("/:id",  getLecturerById);
 
 // CREATE a lecturer
 lecturerRoutes.post("/", authorize("ADMIN"), createLecturer);
